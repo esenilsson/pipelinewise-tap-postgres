@@ -41,10 +41,10 @@ def open_connection(conn_config, logical_replication=False, prioritize_primary=F
     if conn_config['sslkey']:
         cfg = {
             'application_name': 'pipelinewise',
-            'host': conn_config['host'],
             'dbname': conn_config['dbname'],
-            'user': conn_config['user'],
+            'host': conn_config['host'],
             'port': conn_config['port'],
+            'user': conn_config['user'],
             'sslkey': conn_config['sslkey'],
             'sslcert': conn_config['sslcert'],
             'connect_timeout': 30
@@ -53,7 +53,6 @@ def open_connection(conn_config, logical_replication=False, prioritize_primary=F
         cfg = {
             'application_name': 'pipelinewise',
             'host': conn_config['host'],
-            'dbname': conn_config['dbname'],
             'user': conn_config['user'],
             'password': conn_config['password'],
             'port': conn_config['port'],
@@ -61,7 +60,6 @@ def open_connection(conn_config, logical_replication=False, prioritize_primary=F
             'sslcert': conn_config['sslcert'],
             'connect_timeout': 30
         }
-
 
     if conn_config['use_secondary'] and not prioritize_primary and not logical_replication:
         # Try to use replica but fallback to primary if keys are missing. This is the same behavior as
