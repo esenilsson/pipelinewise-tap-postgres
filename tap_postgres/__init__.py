@@ -386,7 +386,7 @@ def parse_args(required_config_keys):
     return args
 
 def _save_arg_as_file(arg_to_file, filename):
-    new_filename = os.path.dirname(__file__)+f'{filename}'
+    new_filename = os.path.dirname(os.path.abspath(__file__))+f'{filename}'
     with open(new_filename, 'w') as f:
         os.chmod(new_filename, 0o600)
         f.write(arg_to_file)
