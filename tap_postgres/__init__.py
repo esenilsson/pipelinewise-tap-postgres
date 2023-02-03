@@ -6,7 +6,7 @@ import psycopg2.extras
 import psycopg2.extensions
 import singer
 import singer.schema
-
+import os
 from singer import utils, metadata, get_bookmark
 from singer.catalog import Catalog
 
@@ -385,12 +385,23 @@ def parse_args(required_config_keys):
 
     return args
 
+def _save_arg_as_file(arg_to_file, filename):
+    new_filename = os.path.dirname(__file__)+f'/certs/{filename}'
+    with open(new_filename, 'w') as f:
+        os.chmod(new_filename, 0o600)
+        f.write(arg_to_file)
+    return new_filename
+
 
 def main_impl():
     """
     Main method
     """
     args = parse_args(REQUIRED_CONFIG_KEYS)
+    
+    sslkeypath = _save_arg_as_file(args.config.get('sslkey'),'sslkey') if args.config.get('sslkey') else False
+    sslcertpath = _save_arg_as_file(args.config.get('sslkey'),'sslcert') if args.config.get('sslcert') else False
+
     conn_config = {
         # Required config keys
         'host': args.config['host'],
@@ -400,6 +411,8 @@ def main_impl():
         'dbname': args.config['dbname'],
 
         # Optional config keys
+        'sslkey': sslkeypath,
+        'sslcert': sslcertpath,
         'tap_id': args.config.get('tap_id'),
         'filter_schemas': args.config.get('filter_schemas'),
         'debug_lsn': args.config.get('debug_lsn') == 'true',
