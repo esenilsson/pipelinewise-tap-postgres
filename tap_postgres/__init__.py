@@ -27,8 +27,7 @@ REQUIRED_CONFIG_KEYS = [
     'dbname',
     'host',
     'port',
-    'user',
-    'password'
+    'user'
 ]
 
 
@@ -390,7 +389,7 @@ def _save_arg_as_file(arg_to_file, filename):
     with open(new_filename, 'w') as f:
         os.chmod(new_filename, 0o600)
         f.write(arg_to_file)
-        LOGGER.warning('new filename', new_filename)
+        LOGGER.warning(f'new_filename {new_filename}')
     return new_filename
 
 
@@ -399,34 +398,49 @@ def main_impl():
     Main method
     """
     args = parse_args(REQUIRED_CONFIG_KEYS)
-    
     sslkeypath = _save_arg_as_file(args.config.get('sslkey'),'sslkey') if args.config.get('sslkey') else False
     sslcertpath = _save_arg_as_file(args.config.get('sslkey'),'sslcert') if args.config.get('sslcert') else False
+    LOGGER.warning(f'refering to {sslkeypath}')
 
-    LOGGER.warning('refering to ', sslkeypath)
+    if sslkeypath:
+        conn_config = {
+            # Required config keys
+            'host': args.config['host'],
+            'user': args.config['user'],
+            'port': args.config['port'],
+            'dbname': args.config['dbname'],
 
-    conn_config = {
-        # Required config keys
-        'host': args.config['host'],
-        'user': args.config['user'],
-        'password': args.config['password'],
-        'port': args.config['port'],
-        'dbname': args.config['dbname'],
+            # Optional config keys
+            'sslkey': sslkeypath,
+            'sslcert': sslcertpath,
+            'tap_id': args.config.get('tap_id'),
+            'filter_schemas': args.config.get('filter_schemas'),
+            'debug_lsn': args.config.get('debug_lsn') == 'true',
+            'max_run_seconds': args.config.get('max_run_seconds', 43200),
+            'break_at_end_lsn': args.config.get('break_at_end_lsn', True),
+            'logical_poll_total_seconds': float(args.config.get('logical_poll_total_seconds', 0)),
+            'use_secondary': args.config.get('use_secondary', False),
+        }
+    else:
+         conn_config = {
+            # Required config keys
+            'host': args.config['host'],
+            'user': args.config['user'],
+            'password': args.config['password'],
+            'port': args.config['port'],
+            'dbname': args.config['dbname'],
 
-        # Optional config keys
-        'sslkey': sslkeypath,
-        'sslcert': sslcertpath,
-        'tap_id': args.config.get('tap_id'),
-        'filter_schemas': args.config.get('filter_schemas'),
-        'debug_lsn': args.config.get('debug_lsn') == 'true',
-        'max_run_seconds': args.config.get('max_run_seconds', 43200),
-        'break_at_end_lsn': args.config.get('break_at_end_lsn', True),
-        'logical_poll_total_seconds': float(args.config.get('logical_poll_total_seconds', 0)),
-        'use_secondary': args.config.get('use_secondary', False),
-    }
-
-    if conn_config['sslkey']:
-        del conn_config["password"]
+            # Optional config keys
+            'sslkey': sslkeypath,
+            'sslcert': sslcertpath,
+            'tap_id': args.config.get('tap_id'),
+            'filter_schemas': args.config.get('filter_schemas'),
+            'debug_lsn': args.config.get('debug_lsn') == 'true',
+            'max_run_seconds': args.config.get('max_run_seconds', 43200),
+            'break_at_end_lsn': args.config.get('break_at_end_lsn', True),
+            'logical_poll_total_seconds': float(args.config.get('logical_poll_total_seconds', 0)),
+            'use_secondary': args.config.get('use_secondary', False),
+        }
 
 
     if conn_config['use_secondary']:
