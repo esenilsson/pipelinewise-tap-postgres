@@ -399,10 +399,9 @@ def main_impl():
     """
     args = parse_args(REQUIRED_CONFIG_KEYS)
     sslkeypath = _save_arg_as_file(args.config.get('sslkey'),'sslkey') if args.config.get('sslkey') else False
-    sslcrtpath = _save_arg_as_file(args.config.get('sslcrt'),'sslcrt') if args.config.get('sslcrt') else False
+    sslcertpath = _save_arg_as_file(args.config.get('sslcert'),'sslcert') if args.config.get('sslcert') else False
     LOGGER.warning(f'refering to {sslkeypath}')
-    print('HHHEHEHEHERHRAEHEHERHREHERHERERH')
-    LOGGER.critical(f'refering to {sslcrtpath}')
+    LOGGER.critical(f'refering to {sslcertpath}')
 
     if sslkeypath:
         conn_config = {
@@ -414,7 +413,7 @@ def main_impl():
 
             # Optional config keys
             'sslkey': sslkeypath,
-            'sslcrt': sslcrtpath,
+            'sslcert': sslcertpath,
             'tap_id': args.config.get('tap_id'),
             'filter_schemas': args.config.get('filter_schemas'),
             'debug_lsn': args.config.get('debug_lsn') == 'true',

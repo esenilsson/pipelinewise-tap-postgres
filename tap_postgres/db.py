@@ -47,7 +47,7 @@ def open_connection(conn_config, logical_replication=False, prioritize_primary=F
             'port': conn_config['port'],
             'user': conn_config['user'],
             'sslkey': conn_config['sslkey'],
-            'sslcrt': conn_config['sslcrt'],
+            'sslcert': conn_config['sslcert'],
             'connect_timeout': 30
         }
     else:
@@ -58,7 +58,7 @@ def open_connection(conn_config, logical_replication=False, prioritize_primary=F
             'password': conn_config['password'],
             'port': conn_config['port'],
             'sslkey': conn_config['sslkey'],
-            'sslcrt': conn_config['sslcrt'],
+            'sslcert': conn_config['sslcert'],
             'connect_timeout': 30
         }
 
