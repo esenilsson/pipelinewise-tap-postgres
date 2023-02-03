@@ -385,7 +385,7 @@ def parse_args(required_config_keys):
     return args
 
 def _save_arg_as_file(arg_to_file, filename):
-    new_filename = os.path.dirname(os.path.abspath(__file__))+f'{filename}'
+    new_filename = os.path.dirname(os.path.abspath(__file__))+f'/{filename}'
     with open(new_filename, 'w') as f:
         os.chmod(new_filename, 0o600)
         f.write(arg_to_file)
@@ -399,10 +399,10 @@ def main_impl():
     """
     args = parse_args(REQUIRED_CONFIG_KEYS)
     sslkeypath = _save_arg_as_file(args.config.get('sslkey'),'sslkey') if args.config.get('sslkey') else False
-    sslcertpath = _save_arg_as_file(args.config.get('sslcert'),'sslcert') if args.config.get('sslcert') else False
+    sslcrtpath = _save_arg_as_file(args.config.get('sslcrt'),'sslcrt') if args.config.get('sslcrt') else False
     LOGGER.warning(f'refering to {sslkeypath}')
     print('HHHEHEHEHERHRAEHEHERHREHERHERERH')
-    LOGGER.critical(f'refering to {sslkeypath}')
+    LOGGER.critical(f'refering to {sslcrtpath}')
 
     if sslkeypath:
         conn_config = {
@@ -414,7 +414,7 @@ def main_impl():
 
             # Optional config keys
             'sslkey': sslkeypath,
-            'sslcert': sslcertpath,
+            'sslcrt': sslcrtpath,
             'tap_id': args.config.get('tap_id'),
             'filter_schemas': args.config.get('filter_schemas'),
             'debug_lsn': args.config.get('debug_lsn') == 'true',
