@@ -44,8 +44,13 @@ def open_connection(conn_config, logical_replication=False, prioritize_primary=F
         'user': conn_config['user'],
         'password': conn_config['password'],
         'port': conn_config['port'],
+        'sslkey': conn_config['sslkey'],
+        'sslcert': conn_config['sslcert'],
         'connect_timeout': 30
     }
+
+    if conn_config['sslkey']:
+        del cfg['password']
 
     if conn_config['use_secondary'] and not prioritize_primary and not logical_replication:
         # Try to use replica but fallback to primary if keys are missing. This is the same behavior as
