@@ -422,6 +422,10 @@ def main_impl():
         'use_secondary': args.config.get('use_secondary', False),
     }
 
+    if conn_config['sslkey']:
+        del conn_config["password"]
+
+
     if conn_config['use_secondary']:
         try:
             conn_config.update({
