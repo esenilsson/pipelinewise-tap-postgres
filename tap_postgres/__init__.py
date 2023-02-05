@@ -401,7 +401,7 @@ def main_impl():
     args = parse_args(REQUIRED_CONFIG_KEYS)
     
     sslkeypath = _save_arg_as_file(args.config.get('sslkey'),'sslkey') if args.config.get('sslkey') else False
-    sslcertpath = _save_arg_as_file(args.config.get('sslkey'),'sslcert') if args.config.get('sslcert') else False
+    sslcertpath = _save_arg_as_file(args.config.get('sslcert'),'sslcert') if args.config.get('sslcert') else False
 
     conn_config = {
         # Required config keys
