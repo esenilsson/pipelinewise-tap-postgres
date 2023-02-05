@@ -71,6 +71,7 @@ def open_connection(conn_config, logical_replication=False, prioritize_primary=F
         })
 
     if conn_config.get('sslmode'):
+        LOGGER.critical(f'sslmode is {conn_config["sslmode"]}')
         cfg['sslmode'] = conn_config['sslmode']
 
     if logical_replication:

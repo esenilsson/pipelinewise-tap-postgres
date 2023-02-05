@@ -434,7 +434,8 @@ def main_impl():
                 "When 'use_secondary' enabled 'secondary_host' and 'secondary_port' must be defined."
             ) from exc
 
-    if args.config.get('ssl') == 'true':
+    if args.config.get('sslmode') == 'true':
+        LOGGER.critical('sslmode is true')
         conn_config['sslmode'] = 'require'
 
     post_db.CURSOR_ITER_SIZE = int(args.config.get('itersize', post_db.CURSOR_ITER_SIZE))
