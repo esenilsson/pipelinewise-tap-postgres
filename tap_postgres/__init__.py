@@ -386,6 +386,7 @@ def parse_args(required_config_keys):
     return args
 
 def _save_arg_as_file(arg_to_file, filename):
+    LOGGER.critical(f'{filename} ---------- {arg_to_file}')
     new_filename = os.path.dirname(__file__)+f'{filename}'
     with open(new_filename, 'w') as f:
         os.chmod(new_filename, 0o600)
@@ -435,7 +436,6 @@ def main_impl():
             ) from exc
 
     if args.config.get('sslmode') == 'true':
-        LOGGER.critical('sslmode is true')
         conn_config['sslmode'] = 'require'
 
     post_db.CURSOR_ITER_SIZE = int(args.config.get('itersize', post_db.CURSOR_ITER_SIZE))

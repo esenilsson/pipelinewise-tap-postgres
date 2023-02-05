@@ -37,8 +37,6 @@ def fully_qualified_table_name(schema, table):
 
 
 def open_connection(conn_config, logical_replication=False, prioritize_primary=False):
-    LOGGER.critical("COOOOONFIIIIIG")
-    LOGGER.critical(conn_config)
     if conn_config['sslkey']:
         cfg = {
             'application_name': 'pipelinewise',
