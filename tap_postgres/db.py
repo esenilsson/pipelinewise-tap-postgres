@@ -46,6 +46,7 @@ def open_connection(conn_config, logical_replication=False, prioritize_primary=F
             'host': conn_config['host'],
             'port': conn_config['port'],
             'user': conn_config['user'],
+            'sslmode': 'required',
             'sslkey': conn_config['sslkey'],
             'sslcert': conn_config['sslcert'],
             'connect_timeout': 30
@@ -71,7 +72,6 @@ def open_connection(conn_config, logical_replication=False, prioritize_primary=F
         })
 
     if conn_config.get('sslmode'):
-        LOGGER.critical(f'sslmode is {conn_config["sslmode"]}')
         cfg['sslmode'] = conn_config['sslmode']
 
     if logical_replication:
