@@ -46,7 +46,7 @@ def open_connection(conn_config, logical_replication=False, prioritize_primary=F
             'host': conn_config['host'],
             'port': conn_config['port'],
             'user': conn_config['user'],
-            'sslmode': 'required',
+            'sslmode': 'require',
             'sslkey': conn_config['sslkey'],
             'sslcert': conn_config['sslcert'],
             'connect_timeout': 30
